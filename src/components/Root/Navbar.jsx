@@ -21,6 +21,7 @@ const Navbar = () => {
            <li><NavLink to="/">Home</NavLink></li>
            <li><NavLink to="/login">Login</NavLink></li>
            <li><NavLink to="/register">Register</NavLink></li>
+           <li><NavLink to="/orders">Orders</NavLink></li>
     </>
     return (
         <div>
@@ -46,9 +47,11 @@ const Navbar = () => {
                         user ? 
                         <>
                         <p>{user.email}</p>
-                        <a onClick={handleLogOut} className="btn">LogOut</a>
+                        <a onClick={handleLogOut} className="btn btn-secondary">LogOut</a>
                         </> :
-                        <Link to='/login'>Login</Link>
+                        <Link to='/login'>
+                            <button className="btn btn-primary">Login</button>
+                        </Link>
                     }
                     
                 </div>

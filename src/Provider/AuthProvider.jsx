@@ -9,22 +9,27 @@ export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const createUser = (email, password) => {
+        setLoading(true)
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
     const singInUser = (email, password) => {
+        setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
     }
 
     const logOut = () => {
+        setLoading(true)
         return signOut(auth)
     }
 
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
             console.log('yes tmi to dekhi genius', currentUser);
+            setLoading(false)
             setUser(currentUser)
         })
         return () => {
@@ -32,7 +37,7 @@ const AuthProvider = ({ children }) => {
         }
     }, [])
 
-    const authInfo = { user, createUser, singInUser, logOut }
+    const authInfo = { user, createUser, singInUser, logOut, loading }
     return (
         <AuthContext.Provider value={authInfo}>
             {children}
