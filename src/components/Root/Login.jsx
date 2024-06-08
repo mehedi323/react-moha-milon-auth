@@ -1,12 +1,14 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const Login = () => {
     
-    const {singInUser}= useContext(AuthContext)
+    const {singInUser, googleSingInUser}= useContext(AuthContext)
+    const navigate = useNavigate();
 
     const handleLogin = e =>{
+ 
         e.preventDefault();
         const email= e.target.email.value;
         const password = e.target.password.value;
@@ -15,15 +17,28 @@ const Login = () => {
         singInUser(email, password)
         .then(result=>{
             console.log(result.user);
+            e.target.reset()
+            navigate('/')
         })
         .catch(error=>{
             console.error(error);
-        })
-
+        }) 
     }
+
+    const handleGoogleSingIn = () =>{
+        googleSingInUser()
+        .then(result=>{
+            console.log(result.user); 
+            navigate('/')
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+
     return (
-        <div className="hero min-h-screen bg-base-200">
-            <div className="hero-content flex-col lg:flex-row-reverse">
+        <div className="hero min-h-screen bg-base-200 ">
+            <div className="hero-content flex-col lg:flex-row-reverse p-4">
                 <div className="text-center lg:text-left">
                     <h1 className="text-5xl font-bold">Login now!</h1>
                     <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
@@ -52,6 +67,7 @@ const Login = () => {
                     <p><Link to='/register'>New Here ? Please
                         <button className="btn btn-active btn-link">Register</button>
                     </Link></p>
+                    <p><button onClick={handleGoogleSingIn} className="btn btn-ghost">Google</button></p>
                 </div>
             </div>
         </div>
